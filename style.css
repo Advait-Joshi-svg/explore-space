@@ -1,0 +1,87 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0b0c10;
+  color: #f0f0f0;
+  padding: 2rem;
+  line-height: 1.6;
+  margin-left: 50px;
+}
+
+h1, h2 {
+    font-family: 'Orbitron';
+  color: #fddb3a;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+img {
+  max-width: 100%;
+  border-radius: 10px;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+section::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
+@media (max-width: 768px) {
+  img {
+    float: none;
+    display: block;
+    margin: 0 auto 20px;
+    width: 100%;
+  }
+}
+
+nav {
+  margin-bottom: 2rem;
+}
+
+nav a {
+  color: #fddb3a;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.launches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.launch-card {
+  background: #1e1e2f;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.launch-card img {
+  width: 100px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.launch-card:hover {
+  transform: scale(1.03);
+}
