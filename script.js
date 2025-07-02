@@ -1,4 +1,4 @@
-const NASA_API_KEY = "YX9rfRWgaFSjC1l9HDfaDULlX2uu9rMdgJFHOvNP";
+const NASA_API_KEY = "DEMO_KEY";
 function fetchAPOD() {
   const titleEl = document.getElementById('apod-title');
   const imgEl = document.getElementById('apod-img');
@@ -83,6 +83,36 @@ function fetchUpcomingLaunches() {
       console.error("Failed to fetch SpaceX launches:", err);
     });
 }
+
+if (document.getElementById("iss-map")) {
+  const map = L.map('iss-map').setView([0, 0], 2);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  const issIcon = L.icon({
+    iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg',
+    iconSize: [50, 32],
+    iconAnchor: [25, 16]
+  });
+
+  const marker = L.marker([0, 0], { icon: issIcon }).addTo(map);
+
+  async function updateISS() {
+    const res = await fetch("http://api.open-notify.org/iss-now.json");
+    const data = await res.json();
+    const { latitude, longitude } = data.iss_position;
+
+    marker.setLatLng([latitude, longitude]);
+    map.setView([latitude, longitude], map.getZoom());
+
+    document.getElementById('iss-coords').textContent = `Lat: ${latitude}, Lon: ${longitude}`;
+  }
+
+  updateISS();
+  setInterval(updateISS, 5000);
+}
+
 
 // ===== Run only what each page needs =====
 fetchAPOD();

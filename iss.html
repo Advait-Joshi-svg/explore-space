@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ISS Live Tracker | ExploreSpace</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <nav>
+    <a href="index.html">🌌 Home</a> |
+    <a href="launches.html">🚀 Launches</a> |
+    <a href="iss.html">🛰 ISS Tracker</a>
+  </nav>
+
+  <div class="container">
+    <h1>🛰 International Space Station Tracker</h1>
+
+    <section id="iss-live">
+      <h2>📍 Current Location</h2>
+      <p id="iss-coords">Fetching coordinates...</p>
+      <div id="iss-map" style="height: 400px; margin-bottom: 2rem;"></div>
+
+      <h2>🌍 Live View from the ISS</h2>
+      <iframe
+        src="https://www.youtube.com/embed/86YLFOog4GM?autoplay=1&mute=1"
+        width="100%"
+        height="400"
+        allowfullscreen
+        style="border: none; border-radius: 10px;"
+      ></iframe>
+      <p style="font-size: 0.9rem; color: #ccc;">Source: NASA Live Stream</p>
+    </section>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
