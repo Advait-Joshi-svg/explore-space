@@ -57,14 +57,20 @@ function renderCarousel(planets) {
     dot.addEventListener("click", () => showSlide(index));
     dotsContainer.appendChild(dot);
   });
+
+  showSlide(0); // Ensure first slide is always visible
 }
 
 function showSlide(index) {
   const slides = document.querySelectorAll(".carousel-slide");
   const dots = document.querySelectorAll(".dot");
 
-  slides.forEach((s, i) => s.style.display = i === index ? "flex" : "none");
-  dots.forEach((d, i) => d.classList.toggle("active", i === index));
+  slides.forEach((s, i) => {
+    s.style.display = i === index ? "flex" : "none";
+  });
+  dots.forEach((d, i) => {
+    d.classList.toggle("active", i === index);
+  });
 
   currentIndex = index;
 }
@@ -74,7 +80,13 @@ function plusSlides(offset) {
   showSlide(next);
 }
 
-filterSelect.addEventListener("change", () => {
+// For HTML inline event binding
+function currentSlide(n) {
+  showSlide(n - 1); // HTML uses 1-based index
+}
+
+// Dropdown filter
+filterSelect?.addEventListener("change", () => {
   const selected = filterSelect.value;
   filteredPlanets = selected === "all"
     ? exoplanets
@@ -83,5 +95,9 @@ filterSelect.addEventListener("change", () => {
   renderCarousel(filteredPlanets);
 });
 
+// Initial render
 renderCarousel(filteredPlanets);
+
+// Expose to global scope for inline HTML onclick handlers
 window.plusSlides = plusSlides;
+window.currentSlide = currentSlide;
