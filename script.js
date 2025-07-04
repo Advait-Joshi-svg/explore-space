@@ -1,10 +1,11 @@
-const NASA_API_KEY = "DEMO_KEY";
 function fetchAPOD() {
   const titleEl = document.getElementById('apod-title');
   const imgEl = document.getElementById('apod-img');
   const descEl = document.getElementById('apod-desc');
   if (!titleEl || !imgEl || !descEl) return;
 
+  const NASA_API_KEY = "YX9rfRWgaFSjC1l9HDfaDULlX2uu9rMdgJFHOvNP";
+ // Replace with your actual key if not already
   fetch(`https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`)
     .then(res => res.json())
     .then(data => {
@@ -12,18 +13,16 @@ function fetchAPOD() {
       imgEl.src = data.url;
       descEl.textContent = data.explanation;
     })
-    .catch(err => {
-      console.error("Failed to fetch APOD:", err);
-    });
+    .catch(err => console.error("Failed to fetch APOD:", err));
 }
 
-// ===== ISS Location + Leaflet Map =====
+
 function setupISSMap() {
   const mapEl = document.getElementById('iss-map');
   const coordsEl = document.getElementById('iss-coords');
   if (!mapEl || !coordsEl) return;
 
-  const map = L.map('iss-map').setView([0, 0], 2);
+  const map = L.map(mapEl).setView([0, 0], 2);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
   }).addTo(map);
@@ -50,39 +49,12 @@ function setupISSMap() {
     }
   }
 
+
   updateISS();
   setInterval(updateISS, 5000);
 }
 
-// ===== SpaceX Launches =====
-function fetchUpcomingLaunches() {
-  const launchList = document.getElementById("launch-list");
-  if (!launchList) return;
 
-  fetch("https://api.spacexdata.com/v4/launches/upcoming")
-    .then(res => res.json())
-    .then(data => {
-      data.sort((a, b) => new Date(a.date_utc) - new Date(b.date_utc));
-
-      data.slice(0, 5).forEach(launch => {
-        const card = document.createElement("div");
-        card.className = "launch-card";
-
-        const patch = launch.links.patch.small || "https://via.placeholder.com/100x100?text=No+Patch";
-
-        card.innerHTML = `
-          <img src="${patch}" alt="Mission Patch">
-          <h3>${launch.name}</h3>
-          <p><strong>Date:</strong> ${new Date(launch.date_utc).toLocaleString()}</p>
-          ${launch.links.webcast ? `<a href="${launch.links.webcast}" target="_blank">🔗 Watch Live</a>` : ""}
-        `;
-        launchList.appendChild(card);
-      });
-    })
-    .catch(err => {
-      console.error("Failed to fetch SpaceX launches:", err);
-    });
-}
 
 if (document.getElementById("iss-map")) {
   const map = L.map('iss-map').setView([0, 0], 2);
@@ -113,8 +85,72 @@ if (document.getElementById("iss-map")) {
   setInterval(updateISS, 5000);
 }
 
+function setupExoplanets() {
+  const planetGrid = document.getElementById("planet-grid");
+  const filterSelect = document.getElementById("filter");
+  if (!planetGrid || !filterSelect) return;
 
-// ===== Run only what each page needs =====
-fetchAPOD();
-setupISSMap();
-fetchUpcomingLaunches();
+  const planets = [
+  {
+    name: "Kepler-22b",
+    description: "A potentially habitable planet orbiting within the habitable zone of its star.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Exoplanet_Comparison_Kepler-22b.png"
+  },
+  {
+    name: "Proxima b",
+    description: "Closest exoplanet to Earth, orbiting Proxima Centauri.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/2/27/Exoplanet_Proxima_Centauri_b.jpg"
+  },
+  {
+    name: "HD 209458 b",
+    description: "First planet detected via transit and confirmed via radial velocity.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/57/Exoplanet_HD_209458_b.jpg"
+  },
+  {
+    name: "51 Pegasi b",
+    description: "The first exoplanet discovered around a sun-like star.",
+    image: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Exoplanet_51_Pegasi_b.jpg"
+  }
+];
+
+
+  function renderPlanets(list) {
+  planetGrid.innerHTML = "";
+  list.forEach(planet => {
+    const card = document.createElement("div");
+    card.className = "planet-card";
+    card.innerHTML = `
+  <div class="planet-content">
+    <h3>${planet.name}</h3>
+    <img src="${planet.image}" alt="${planet.name}" />
+    <div class="planet-extra">
+      <p>${planet.description}</p>
+    </div>
+  </div>
+`;
+
+    card.addEventListener("click", () => {
+      window.location.href = `planet.html?planet=${planet.slug}`;
+    });
+    planetGrid.appendChild(card);
+  });
+}
+
+
+  filterSelect.addEventListener("change", () => {
+    const method = filterSelect.value;
+    if (method === "all") {
+      renderPlanets(planets);
+    } else {
+      renderPlanets(planets.filter(p => p.method === method));
+    }
+  });
+
+  renderPlanets(planets);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchAPOD();
+  setupISSMap();
+  setupExoplanets();
+});

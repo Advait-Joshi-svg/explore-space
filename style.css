@@ -1,3 +1,4 @@
+/* ==== GLOBAL STYLES ==== */
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #0b0c10;
@@ -8,10 +9,26 @@ body {
 }
 
 h1, h2 {
-    font-family: 'Orbitron';
+  font-family: 'Orbitron', sans-serif;
   color: #fddb3a;
 }
 
+nav {
+  margin-bottom: 2rem;
+}
+
+nav a {
+  color: #fddb3a;
+  text-decoration: none;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* ==== APOD & ISS SHARED SECTION ==== */
 section {
   margin-bottom: 3rem;
 }
@@ -35,7 +52,7 @@ section::after {
   margin: 0 auto;
 }
 
-
+/* ==== RESPONSIVE IMAGE RESET ==== */
 @media (max-width: 768px) {
   img {
     float: none;
@@ -45,43 +62,87 @@ section::after {
   }
 }
 
-nav {
-  margin-bottom: 2rem;
+/* ==== CAROUSEL STYLES ==== */
+.carousel-container {
+  position: relative;
+  max-width: 90%;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #1c1c2a;
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
 }
 
-nav a {
-  color: #fddb3a;
-  text-decoration: none;
-  margin-right: 15px;
-  font-weight: bold;
+.carousel-slide {
+  display: none;
+  padding: 20px;
+  align-items: center;
 }
 
-nav a:hover {
-  text-decoration: underline;
-}
-
-.launches-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.launch-card {
-  background: #1e1e2f;
-  padding: 1rem;
+.planet-img {
+  width: 40%;
+  max-height: 400px;
+  object-fit: cover;
   border-radius: 10px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-  color: #fff;
-  text-align: center;
-  transition: transform 0.2s;
+  margin-right: 20px;
+  float: left;
 }
 
-.launch-card img {
-  width: 100px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+.planet-info {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 50%;
 }
 
-.launch-card:hover {
-  transform: scale(1.03);
+/* ==== RESPONSIVE CAROUSEL ==== */
+@media (max-width: 768px) {
+  .planet-img {
+    float: none;
+    display: block;
+    margin: 0 auto 1rem;
+    width: 100%;
+  }
+
+  .planet-info {
+    max-width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==== NAVIGATION ARROWS ==== */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 45%;
+  width: auto;
+  padding: 16px;
+  color: #fddb3a;
+  font-weight: bold;
+  font-size: 20px;
+  transition: 0.3s;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  z-index: 10;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* ==== DOTS ==== */
+.dot {
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  margin: 0 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background 0.3s ease;
+}
+
+.active, .dot:hover {
+  background-color: #fddb3a;
 }
